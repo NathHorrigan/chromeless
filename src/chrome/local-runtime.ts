@@ -6,6 +6,7 @@ import {
   Cookie,
   CookieQuery,
   PdfOptions,
+  NetworkConditions
 } from '../types'
 import * as cuid from 'cuid'
 import * as fs from 'fs'
@@ -31,6 +32,7 @@ import {
   mousedown,
   mouseup,
   focus,
+  setOffline
 } from '../util'
 
 export default class LocalRuntime {
@@ -94,6 +96,8 @@ export default class LocalRuntime {
         return this.mousup(command.selector)
       case 'focus':
         return this.focus(command.selector)
+      case 'setOffline':
+        return this.setOffline(command.settings)
       default:
         throw new Error(`No such command: ${JSON.stringify(command)}`)
     }
@@ -364,4 +368,10 @@ export default class LocalRuntime {
       console.log(msg)
     }
   }
+
+  async setOffline(settings: NetworkConditions): Promise<void> {
+    await setOffline(this.client, settings)
+    this.log('setOffline Activated')
+  }
+
 }

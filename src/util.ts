@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 import * as path from 'path'
-import { Client, Cookie, PdfOptions } from './types'
+import { Client, Cookie, PdfOptions, NetworkConditions } from './types'
 
 export const version: string = ((): string => {
   if (fs.existsSync(path.join(__dirname, '../package.json'))) {
@@ -382,6 +382,13 @@ export async function pdf(
   const pdf = await Page.printToPDF(options)
 
   return pdf.data
+}
+
+export async function setOffline(client: Client, settings: NetworkConditions) {
+
+  const {Network} = client
+
+  await Network.canEmulateNetworkConditions(settings)
 }
 
 export function getDebugOption(): boolean {

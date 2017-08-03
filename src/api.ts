@@ -1,7 +1,7 @@
 import ChromeLocal from './chrome/local'
 import ChromeRemote from './chrome/remote'
 import Queue from './queue'
-import { ChromelessOptions, Cookie, CookieQuery, PdfOptions } from './types'
+import { ChromelessOptions, Cookie, CookieQuery, PdfOptions, NetworkConditions } from './types'
 import { getDebugOption } from './util'
 
 export default class Chromeless<T extends any> implements Promise<T> {
@@ -270,6 +270,17 @@ export default class Chromeless<T extends any> implements Promise<T> {
 
   cookiesClearAll(): Chromeless<T> {
     this.queue.enqueue({ type: 'cookiesClearAll' })
+
+    return this
+  }
+
+  setOffline(settings: NetworkConditions = {
+    offline: true,
+    latency: 0,
+    downloadThroughput: 10000,
+    uploadThroughput: 10000
+  }): Chromeless<T> {
+    this.queue.enqueue({ type: 'setOffline', settings })
 
     return this
   }

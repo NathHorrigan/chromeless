@@ -136,6 +136,10 @@ export type Command =
       type: 'focus'
       selector: string
     }
+  | {
+      type: 'setOffline',
+      settings: NetworkConditions
+    }
 
 export interface Cookie {
   url?: string
@@ -174,4 +178,11 @@ export interface PdfOptions {
   marginRight?: number
   pageRanges?: string
   ignoreInvalidPageRanges?: boolean
+}
+
+export interface NetworkConditions {
+  offline: Boolean,
+  latency: Number,
+  downloadThroughput: Number,
+  uploadThroughput: Number
 }
